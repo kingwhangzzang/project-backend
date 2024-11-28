@@ -3,10 +3,7 @@ package com.king.projectbackend.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Table
 @Entity
@@ -36,7 +33,7 @@ public class MemberEntity {
     private String memberTel;
 
     @Column(name ="memberBirth")
-    private String memberBirth;
+    private Date memberBirth;
 
     @Column(name = "memberIsDeleted")
     private String memberIsDeleted;
@@ -56,7 +53,12 @@ public class MemberEntity {
     @OneToMany(mappedBy = "follower")
     private Set<FollowEntity> followees = new HashSet<>();
 
-    @OneToMany(mappedBy = "memberEntity")
+    @OneToMany(mappedBy = "memberIdx")
     private Set<BlackList> blacklists = new HashSet<>();
 
+    @OneToMany(mappedBy = "memberIdx")
+    private Set<Comment> comments = new HashSet<>();
+
+    @OneToMany(mappedBy = "memberIdx")
+    private List<BookMark> bookmarks = new ArrayList<>();
 }
