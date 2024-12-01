@@ -8,17 +8,15 @@ import lombok.Getter;
 @Getter
 public class BookMark {
     @Id
-    @GeneratedValue
-    @Column(name = "bookMark_idx")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "bookMarkIdx")
     private Long bookMarkIdx;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "memberIdx")
-    private MemberEntity memberEntity;
+    private Member member; // 수정
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "diaryIdx")
-    private Comment comment;
-
-
+    @JoinColumn(name = "commentIdx")
+    private Comment comment; // 수정
 }

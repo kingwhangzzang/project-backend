@@ -6,16 +6,16 @@ import lombok.Getter;
 @Entity
 @Table(name = "diary")
 @Getter
-public class diary {
+public class Diary { // 클래스 이름 수정
     @Id
-    @Column(name = "dirayIdx")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long dirayIdx;
+    @Column(name = "diaryIdx") // 수정
+    private Long diaryIdx;
 
-    @Column(name = "diaryTitile")
+    @Column(name = "diaryTitle")
     private String diaryTitle;
 
+    @Lob
     @Column(name = "diaryComment")
-    private String diaryComment; //string 말고 xml형식으로 삽입
-
+    private String diaryComment; // XML 형식 저장
 }

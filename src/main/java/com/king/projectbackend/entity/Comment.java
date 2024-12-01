@@ -3,6 +3,7 @@ package com.king.projectbackend.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -26,22 +27,20 @@ public class Comment {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "memberIdx")
-    private MemberEntity memberIdx;
+    private Member member; // 수정
 
     @Column(name = "commentIsDeleted")
-    private Boolean commentIsDeleted =false;
+    private Boolean commentIsDeleted = false;
 
     @Column(name = "commentLike")
-    private Integer commentLike=0;//좋아요
+    private Integer commentLike = 0;
 
     @Column(name = "commentDepth")
-    private Integer commentDepth;//깊이
+    private Integer commentDepth;
 
     @Column(name = "commentOrderNumber")
-    private Integer commentOrderNumber;//순서
+    private Integer commentOrderNumber;
 
-    @OneToMany(mappedBy = "bookmarkIdx")
-    private List<Comment> commentList;
-
-
+    @OneToMany(mappedBy = "parentComment", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> commentList = new ArrayList<>(); // 수정
 }
