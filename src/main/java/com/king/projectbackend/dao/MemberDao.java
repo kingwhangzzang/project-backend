@@ -20,4 +20,15 @@ public class MemberDao {
         }
 
     }
+
+    public Member selectByIdMember(String encode) {
+        try {
+            return (Member)em.createQuery("select m from Member m where m.memberLoginId = :memberLoginId")
+                    .setParameter("memberLoginId", encode)
+                    .getSingleResult();
+        }catch (PersistenceException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

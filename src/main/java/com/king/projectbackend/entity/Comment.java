@@ -2,6 +2,7 @@ package com.king.projectbackend.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 @Entity
 @Table(name = "comment")
 @Getter
+@Setter
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +20,9 @@ public class Comment {
     @Column(name = "commentTitle")
     private String commentTitle;
 
+    @Column(name = "disclosure")
+    private String disclosure;
+
     @Column(name = "commentContent")
     private String commentContent;
 
@@ -25,9 +30,12 @@ public class Comment {
     @JoinColumn(name = "parentCommentIdx")
     private Comment parentComment;
 
+    @OneToMany(mappedBy = "parentComment", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> childComments = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "memberIdx")
-    private Member member; // 수정
+    private Member member;
 
     @Column(name = "commentIsDeleted")
     private Boolean commentIsDeleted = false;
@@ -41,6 +49,6 @@ public class Comment {
     @Column(name = "commentOrderNumber")
     private Integer commentOrderNumber;
 
-    @OneToMany(mappedBy = "parentComment", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> commentList = new ArrayList<>(); // 수정
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CommentTag> commentTags = new ArrayList<>();
 }

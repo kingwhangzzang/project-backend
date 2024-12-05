@@ -40,6 +40,25 @@ public class MemberService {
         }
 
     }
+    //데이터값 한개
+    public String decodeGetOne(String data){
+        try {
+            String result = aesUtil.aesCbcDecode(data);
+            return result;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public String encodeGetOne(String data){
+        try {
+            String result = aesUtil.aesCbcEncode(data);
+            return result;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     //암호화 메서드
     public Member encodeMember(Member member) {
@@ -59,4 +78,16 @@ public class MemberService {
         }
     }
 
+    public Member login(String loginId) {
+        //1.암호화 작업
+        String encode = encodeGetOne(loginId);
+        System.out.println("memberService:encode"+encode);
+        //2.DB에서 내가 암호화한걸 가져옴
+        Member result =memberDao.selectByIdMember(encode);
+        if(result != null){
+            return decodeMember(result);
+        }else{
+            return null;
+        }
+    }
 }

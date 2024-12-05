@@ -15,6 +15,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins("http://localhost:3000") // 허용할 도메인
                 .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS") // 허용할 HTTP 메서드
                 .allowedHeaders("*") // 허용할 헤더
+                .exposedHeaders("Authorization")
                 .allowCredentials(true); // 자격 증명 허용 (쿠키나 인증 헤더 등)
     }
 }
