@@ -1,6 +1,7 @@
 package com.king.projectbackend.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,7 @@ import lombok.Setter;
 @Table(name = "commenttag")
 @Getter
 @Setter
+@Data
 public class CommentTag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

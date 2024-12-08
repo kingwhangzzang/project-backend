@@ -3,9 +3,13 @@ package com.king.projectbackend.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +17,7 @@ import java.util.List;
 @Table(name = "member")
 @Getter
 @Data
-public class Member {
+public class Member implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "memberIdx")
@@ -69,4 +73,19 @@ public class Member {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BookMark> bookmarks = new ArrayList<>();
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(()->"ROLE_USER");
+    }
+
+    @Override
+    public String getPassword() {
+        return memberPassword;
+    }
+
+    @Override
+    public String getUsername() {
+        return memberLoginId;
+    }
 }

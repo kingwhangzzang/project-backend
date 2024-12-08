@@ -4,6 +4,7 @@ import com.king.projectbackend.dao.MemberDao;
 import com.king.projectbackend.entity.Member;
 import com.king.projectbackend.util.AesUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,11 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
     private final MemberDao memberDao;
     private final AesUtil aesUtil;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public boolean join(Member member) {
         boolean result = memberDao.insertMember(encodeMember(member));
-
         return result;
     }
     // 복호화메서드수정 필요 할수도 ~
