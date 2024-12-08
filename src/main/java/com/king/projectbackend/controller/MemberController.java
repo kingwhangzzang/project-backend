@@ -6,6 +6,7 @@ import com.king.projectbackend.service.CustomUserDetailService;
 import com.king.projectbackend.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,11 +25,11 @@ public class MemberController {
     private final BCryptPasswordEncoder passwordEncoder;
     private final CustomUserDetailService customUserDetailService;
 
-    private JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/api/signup")
     public ResponseEntity<String> signup(@RequestBody Member member){
-        System.out.println(member);
+        log.info(member.getUsername());
         String beforePassword = passwordEncoder.encode(member.getMemberPassword());
         member.setMemberPassword(beforePassword); //암호화된 값 넣어서 수정
 
@@ -46,7 +47,7 @@ public class MemberController {
        Member result = memberService.login(member.getMemberLoginId());
        if(result != null){
            if (passwordEncoder.matches(member.getMemberPassword(), result.getMemberPassword())) {
-
+               System.out.println("오류찾기1"+result.getMemberIdx());
                // 3. UserDetails 로드
                UserDetails userDetails = customUserDetailService.loadUserByUsername(member.getMemberLoginId());
 
@@ -57,11 +58,13 @@ public class MemberController {
                // 5. SecurityContext에 인증 설정
                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
-               // 6. JWT 토큰 생성
-               String token = jwtTokenProvider.createToken(member.getMemberLoginId());
-
+               // 6. JWT 토큰 생성 //이부분은 clams 설정을 재설정 해야함 header에 정보를 넘겨야함
+               String token = jwtTokenProvider.createJWT(result,"ROLE_USER");
+               System.out.println(token);
+               HttpHeaders headers = new HttpHeaders();
+               headers.add("Authorization", "Bearer " + token);
                // 7. JWT 응답 반환
-               return ResponseEntity.ok("Bearer " + token);
+               return ResponseEntity.ok().headers(headers).body("로그인 성공");
            }
        }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid login credentials");
