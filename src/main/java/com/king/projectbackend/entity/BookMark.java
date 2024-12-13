@@ -16,7 +16,5 @@ public class BookMark {
     @JoinColumn(name = "memberIdx")
     private Member member; // 수정
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "commentIdx")
-    private Comment comment; // 수정
+
 }

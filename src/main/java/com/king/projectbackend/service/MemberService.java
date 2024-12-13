@@ -91,4 +91,9 @@ public class MemberService {
             return null;
         }
     }
+
+    public Member memberSelectById(Long memberIdx) {
+        Member member = memberDao.memberSelectById(memberIdx);
+        return member;
+    }
 }

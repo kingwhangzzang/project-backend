@@ -31,4 +31,13 @@ public class MemberDao {
             return null;
         }
     }
+
+    public Member memberSelectById(Long memberIdx) {
+        try {
+            return em.find(Member.class, memberIdx);
+        }catch (PersistenceException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
