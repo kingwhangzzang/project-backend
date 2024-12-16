@@ -12,6 +12,7 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 public class TagDao {
+
     private final EntityManager em;
 
     public Tag findByTagName(String tagName) {
@@ -20,12 +21,8 @@ public class TagDao {
                     .setParameter("tagName", tagName)
                     .getSingleResult();
         } catch (NoResultException e) {
-            return null; // 태그가 없으면 null 반환
+            return null;  // 태그가 없으면 null 반환
         }
     }
-
-    public Tag save(Tag tag) {
-        em.persist(tag);
-        return tag;
-    }
 }
+

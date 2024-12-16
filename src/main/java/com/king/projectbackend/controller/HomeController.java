@@ -1,6 +1,8 @@
 package com.king.projectbackend.controller;
 
+import com.king.projectbackend.entity.Board;
 import com.king.projectbackend.prop.JwtTokenProvider;
+import com.king.projectbackend.service.BoardService;
 import com.king.projectbackend.service.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -10,21 +12,17 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class HomeController {
-    private final TagService tagService;
+    private final BoardService boardService;
     private final JwtTokenProvider jwtTokenProvider;
-    //기본적으로 데이터를 wirte에 태그형식으로 쏠거임
-//    @PostMapping("/api/write/home")
-//    public ResponseEntity<List<Tag>> login() {
-//        List<Tag> tags = tagService.getTags();
-//        System.out.println("태그값"+tags.size());
-//        return  ResponseEntity.ok(tags);
-//    }
-//    @GetMapping("/api/home")
-//    public ResponseEntity<List<Comment>> homeComment(
-//            @RequestParam(defaultValue = "0") int page,
-//            @RequestParam(defaultValue = "10") int size
-//    ){
-//
-//    }
+
+    @GetMapping("/api/main")
+    public ResponseEntity<List<Board>> home(@RequestParam(value = "disclosure",defaultValue="공개") String disclosure) {
+        System.out.println("데이터를 가져옴");
+        List<Board> boards = boardService.boardFindByDisClosure(disclosure);
+        System.out.println(boards.size());
+        return ResponseEntity.ok().body(boards); // 받아온 데이터 전달
+    }
+
 }

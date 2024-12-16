@@ -23,7 +23,7 @@ public class SecurityConfig {
                 .formLogin(form -> form.disable())
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/login", "/signup", "/api/login", "/api/signup","/api/board/save","/main").permitAll()
+                        .requestMatchers("/", "/login", "/signup", "/api/login", "/api/signup","/api/board/**","/api/main","/main").permitAll()
                         .anyRequest().authenticated());
 
         http.sessionManagement((session)->
